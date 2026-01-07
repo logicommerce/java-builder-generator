@@ -19,8 +19,37 @@
 		<maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>3.3.0</maven-javadoc-plugin.version>
-		<central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
+		<central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
 	</properties>
+
+	<licenses>
+		<license>
+			<name>Mozilla Public License 2.0</name>
+			<url>https://www.mozilla.org/media/MPL/2.0/index.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Pol Rivero Sallent</name>
+			<email>pol.rivero@logicommerce.com</email>
+			<organization>LogiCommerce</organization>
+			<organizationUrl>https://www.logicommerce.com</organizationUrl>
+		</developer>
+		<developer>
+			<name>Francis Castillo Matilla</name>
+			<email>francis.castillo@logicommerce.com</email>
+			<organization>LogiCommerce</organization>
+			<organizationUrl>https://www.logicommerce.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com:logicommerce/java-builder-generator.git</connection>
+		<developerConnection>scm:git:ssh://github.com:logicommerce/java-builder-generator.git</developerConnection>
+		<url>https://github.com/logicommerce/java-builder-generator/tree/main</url>
+	</scm>
 
 	<modules>
 		<module>annotations</module>
@@ -29,4 +58,38 @@
 
 	<dependencies>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>deploy</id>
+				<build>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-gpg-plugin</artifactId>
+							<version>${maven-gpg-plugin.version}</version>
+							<executions>
+								<execution>
+									<id>sign-artifacts</id>
+									<phase>verify</phase>
+									<goals>
+										<goal>sign</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+							<plugin>
+								<groupId>org.sonatype.central</groupId>
+								<artifactId>central-publishing-maven-plugin</artifactId>
+								<version>${central-publishing-maven-plugin.version}</version>
+								<extensions>true</extensions>
+								<configuration>
+									<publishingServerId>central</publishingServerId>
+									<autoPublish>true</autoPublish>
+								</configuration>
+							</plugin>
+					</plugins>
+				</build>
+		</profile>
+	</profiles>
 </project>
