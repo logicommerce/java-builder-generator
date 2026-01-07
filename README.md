@@ -175,8 +175,6 @@ public class BasketBuilderInterceptor implements BuilderInterceptor<Basket> {
 
 ### Deploy to maven
 
-First, set up `m2/settings.xml` and GPG keys. Then, run: 
-
-```sh
-mvn clean deploy -P deploy
-```
+1. (First time only) Set up `m2/settings.xml` and GPG keys.
+2. Increment `revision` in `pom.xml`.
+3. Run: `mvn clean deploy -P deploy`.
