@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.logicommerce</groupId>
+	<artifactId>builder-generator-codegen</artifactId>
+	<version>${revision}</version>
+
+	<name>Builder Generator Codegen</name>
+
+	<parent>
+		<groupId>com.logicommerce</groupId>
+		<artifactId>builder-generator</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.release>17</maven.compiler.release>
+	</properties>
+
+	<licenses>
+		<license>
+			<name>Mozilla Public License 2.0</name>
+			<url>https://www.mozilla.org/media/MPL/2.0/index.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Pol Rivero Sallent</name>
+			<email>pol.rivero@logicommerce.com</email>
+			<organization>LogiCommerce</organization>
+			<organizationUrl>https://www.logicommerce.com</organizationUrl>
+		</developer>
+		<developer>
+			<name>Francis Castillo Matilla</name>
+			<email>francis.castillo@logicommerce.com</email>
+			<organization>LogiCommerce</organization>
+			<organizationUrl>https://www.logicommerce.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com:logicommerce/java-builder-generator.git</connection>
+		<developerConnection>scm:git:ssh://github.com:logicommerce/java-builder-generator.git</developerConnection>
+		<url>https://github.com/logicommerce/java-builder-generator/tree/main</url>
+	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.logicommerce</groupId>
+			<artifactId>builder-generator-annotations</artifactId>
+			<version>${revision}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin.version}</version>
+				<configuration>				
+					<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+					<additionalOptions>
+						<additionalparam>-version</additionalparam>
+					</additionalOptions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>update</id>
+						<goals>
+							<goal>fix</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>deploy</id>
+				<build>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-gpg-plugin</artifactId>
+							<version>${maven-gpg-plugin.version}</version>
+							<executions>
+								<execution>
+									<id>sign-artifacts</id>
+									<phase>verify</phase>
+									<goals>
+										<goal>sign</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+							<plugin>
+								<groupId>org.sonatype.central</groupId>
+								<artifactId>central-publishing-maven-plugin</artifactId>
+								<version>${central-publishing-maven-plugin.version}</version>
+								<extensions>true</extensions>
+								<configuration>
+									<publishingServerId>central</publishingServerId>
+									<autoPublish>true</autoPublish>
+								</configuration>
+							</plugin>
+					</plugins>
+				</build>
+		</profile>
+	</profiles>
+</project>
