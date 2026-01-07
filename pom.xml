@@ -10,6 +10,8 @@
 	<packaging>pom</packaging>
 
 	<name>Builder Generator</name>
+	<description>Automatic Java builder class generator</description>
+	<url>https://github.com/logicommerce/java-builder-generator</url>
 
 	<properties>
 		<revision>0.0.1</revision>
@@ -20,6 +22,7 @@
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>3.3.0</maven-javadoc-plugin.version>
 		<central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
+		<flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
 	</properties>
 
 	<licenses>
@@ -78,16 +81,41 @@
 								</execution>
 							</executions>
 						</plugin>
-							<plugin>
-								<groupId>org.sonatype.central</groupId>
-								<artifactId>central-publishing-maven-plugin</artifactId>
-								<version>${central-publishing-maven-plugin.version}</version>
-								<extensions>true</extensions>
-								<configuration>
-									<publishingServerId>central</publishingServerId>
-									<autoPublish>true</autoPublish>
-								</configuration>
-							</plugin>
+						<plugin>
+							<groupId>org.sonatype.central</groupId>
+							<artifactId>central-publishing-maven-plugin</artifactId>
+							<version>${central-publishing-maven-plugin.version}</version>
+							<extensions>true</extensions>
+							<configuration>
+								<publishingServerId>central</publishingServerId>
+								<autoPublish>true</autoPublish>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>flatten-maven-plugin</artifactId>
+							<version>${flatten-maven-plugin.version}</version>
+							<configuration>
+								<flattenMode>resolveCiFriendliesOnly</flattenMode>
+								<updatePomFile>true</updatePomFile>
+							</configuration>
+							<executions>
+								<execution>
+									<id>flatten</id>
+									<phase>process-resources</phase>
+									<goals>
+										<goal>flatten</goal>
+									</goals>
+								</execution>
+								<execution>
+									<id>flatten-clean</id>
+									<phase>clean</phase>
+									<goals>
+										<goal>clean</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
 					</plugins>
 				</build>
 		</profile>
