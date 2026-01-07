@@ -39,6 +39,17 @@ public class BuilderGeneratorConfig {
 				pathToPackage(interceptorsPath)));
 	}
 
+	/**
+	 * Adds a new generation task/module to the configuration (without interceptors)
+	 *
+	 * @param scannedInputModules   list of input source directory paths
+	 * @param generatedBuildersPath path for the generated builders
+	 * @throws IllegalArgumentException if any path is invalid
+	 */
+	public void addGenerationTask(List<String> scannedInputModules, String generatedBuildersPath) {
+		addGenerationTask(scannedInputModules, generatedBuildersPath, null);
+	}
+
 	public List<GeneratedModule> getModules() {
 		return modules;
 	}
