@@ -50,6 +50,7 @@ BlogPost blogPost = new BlogPostBuilder<>()
 The code above is fully type-safe and it is equivalent to:
 ```java
 BlogPostAuthor author = new BlogPostAuthor();
+author.setId(123);
 author.setAliases(List.of("the_author", "another_alias"));
 
 BlogPostTag tag1 = new BlogPostTag();
@@ -170,6 +171,7 @@ public class BasketBuilderInterceptor implements BuilderInterceptor<Basket> {
 ## Limitations
 
 - The code generator must be executed in a Linux system.
+- For setters that accept a `List`, `Set`, or `Map`, the constructed collections will be of type `ArrayList`, `LinkedHashSet`, or `HashMap` respectively. The used implementations cannot be changed at the moment.
 
 ## Development
 
