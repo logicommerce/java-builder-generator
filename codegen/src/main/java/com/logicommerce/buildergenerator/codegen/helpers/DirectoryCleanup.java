@@ -19,6 +19,9 @@ public class DirectoryCleanup {
 
 	public void deleteNonWrittenFiles() {
 		File directory = getDirectory();
+		if (directory == null) {
+			return;
+		}
 		File[] filesInDirectory = directory.listFiles();
 		for (File file : filesInDirectory) {
 			if (!files.contains(file.getAbsolutePath())) {
@@ -37,6 +40,9 @@ public class DirectoryCleanup {
 	}
 
 	private File getDirectory() {
+		if (files.isEmpty()) {
+			return null;
+		}
 		String firstDirectory = getDirectory(files.get(0));
 		for (String filename : files) {
 			if (!filename.startsWith(firstDirectory)) {
