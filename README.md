@@ -132,6 +132,40 @@ public class MyClass {
 > [!NOTE]
 > If your setter receives another object (or collection of objects) and you want to use nested/chained builders, make sure the other object is also annotated with `@GenerateBuilder`.
 
+### Using interceptors
+
+You can customize the build process for a given class by creating an interceptor inside the interceptors package (specified in the configuration).
+
+All classes implementing `BuilderInterceptor<T>` inside the package will be automatically picked up and used.
+
+For example, to hook into the creation of class `com.myorg.models.Basket`:
+
+```java
+package com.myorg.builderinterceptors;
+
+import com.logicommerce.buildergenerator.annotations.BuilderInterceptor;
+
+import java.util.UUID;
+import com.myorg.models.Basket;
+
+public class BasketBuilderInterceptor implements BuilderInterceptor<Basket> {
+
+	@Override
+	public void beforeBuild(Basket basket) {
+		basket.setId(UUID.randomUUID().toString());
+	}
+
+	@Override
+	public void afterBuild(Basket basket) {
+		basket.updateShippingInformation();
+	}
+
+}
+```
+
+> [!TIP]
+> Unlike `@GenerateBuilder`, interceptors are **not** limited to concrete classes. You can define an interceptor for an abstract class and it will be used/inherited by the builders of all its subclasses. Interceptors are always applied in order, from most abstract (superclass) to most concrete (subclass).
+
 
 ## Limitations
 

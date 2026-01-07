@@ -18,21 +18,35 @@ import com.logicommerce.buildergenerator.codegen.core.ReverseClassSearch;
 import com.logicommerce.buildergenerator.codegen.helpers.DirectoryCleanup;
 import com.logicommerce.buildergenerator.codegen.helpers.InterceptorLookup;
 
+/**
+ * Main class responsible for generating builder classes based on configuration.
+ */
 public class BuilderGeneratorMain {
 
 	private final BuilderGeneratorConfig config;
 
+	/**
+	 * Constructs a new BuilderGeneratorMain with the specified configuration.
+	 *
+	 * @param config the builder generator configuration
+	 */
 	public BuilderGeneratorMain(BuilderGeneratorConfig config) {
 		this.config = config;
 	}
 
+	/**
+	 * Generates builder classes for all configured modules and writes them to disk.
+	 * Existing builders are updated or removed.
+	 *
+	 * @throws IOException if an I/O error occurs during generation
+	 */
 	public void generate() throws IOException {
 		for (BuilderGeneratorConfig.GeneratedModule module : config.getModules()) {
 			generate(module);
 		}
 	}
 
-	public void generate(GeneratedModule args) throws IOException {
+	private void generate(GeneratedModule args) throws IOException {
 		ClassFinder finder = new ClassFinder();
 		List<Class<?>> classesToGenerate = finder.classesWithAnnotation(args.scannedInputDirs(), GenerateBuilder.class);
 		List<Class<?>> additionalClasses = finder.classesWithAnnotation(getAdditionalPackagesToScan(args),

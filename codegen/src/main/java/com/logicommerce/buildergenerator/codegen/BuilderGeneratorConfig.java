@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Configuration class for the Builder Generator. Handles the mapping between
+ * input source directories and the generated builder/interceptor packages.
+ */
 public class BuilderGeneratorConfig {
 
 	private static final Pattern PATH_PATTERN = Pattern.compile("/src/(?:main|test)/java/([\\w/]+)$");
@@ -18,6 +22,15 @@ public class BuilderGeneratorConfig {
 
 	private List<GeneratedModule> modules = new ArrayList<>();
 
+	/**
+	 * Adds a new generation task/module to the configuration.
+	 *
+	 * @param scannedInputModules   list of input source directory paths
+	 * @param generatedBuildersPath path for the generated builders
+	 * @param interceptorsPath      path to the input source directory for
+	 *                              interceptors (optional)
+	 * @throws IllegalArgumentException if any path is invalid
+	 */
 	public void addGenerationTask(List<String> scannedInputModules, String generatedBuildersPath,
 			String interceptorsPath) {
 		modules.add(new GeneratedModule(
